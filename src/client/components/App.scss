@@ -1,5 +1,7 @@
 @import '../../../semantic/dist/semantic.min.css';
 @import './StyleCard';
+@import './ImageUploader';
+@import './Progress';
 
 body {
   background-color: #1a1a1a;
@@ -14,9 +16,10 @@ body {
     margin-top: 50px;
     margin-bottom: 50px;
   }
-  .button__input,
+  .button__input {
+    float: left;
+  }
   .button__output {
-    display: block;
-    margin: auto;
+    float: right;
   }
 }
