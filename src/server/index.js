@@ -2,12 +2,11 @@
 /* eslint-disable implicit-arrow-linebreak */
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 const multer = require('multer');
 const artStyles = require('./art_styles.json');
 
+const env = process.env.NODE_ENV || 'dev';
 const app = express();
-process.env.PWD = process.cwd();
 
 // Static files
 app.use(express.static('dist'));
@@ -21,7 +20,10 @@ app.use(bodyParser.json());
 //SET STORAGE for /api/upload endpoint
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'public/images/input'));
+    cb(
+      null,
+      env !== 'dev' ? '/app/public/images/input' : 'public/images/input'
+    );
   },
   filename: (req, file, cb) => {
     console.log('uploaded ' + file.originalname);
