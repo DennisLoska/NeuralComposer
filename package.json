@@ -20,9 +20,11 @@
   "license": "all rights are reserved",
   "homepage": ".",
   "dependencies": {
+    "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "express": "^4.16.3",
     "fomantic-ui": "^2.8.2",
+    "multer": "^1.4.2",
     "react": "^16.5.2",
     "react-axe": "^3.3.0",
     "react-dom": "^16.5.2"
