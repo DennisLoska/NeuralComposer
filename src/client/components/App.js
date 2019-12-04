@@ -97,7 +97,7 @@ const App = () => {
       <h2 className="row__headline ui inverted dividing header">
         Time to create some art!
       </h2>
-      <div className="ui stackable two column divided grid container">
+      <div className="image__row ui stackable two column divided grid container">
         <div className="row">
           <ImageUploader setUploaded={setUploaded} />
           <ImageReceiver
