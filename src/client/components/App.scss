@@ -1,0 +1,22 @@
+@import '../../../semantic/dist/semantic.min.css';
+@import './StyleCard';
+
+body {
+  background-color: #1a1a1a;
+  text-align: left;
+  margin: auto;
+  font-size: 16px;
+}
+
+.app__wrapper {
+  margin-top: 50px;
+  .block__text {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  .button__input,
+  .button__output {
+    display: block;
+    margin: auto;
+  }
+}
