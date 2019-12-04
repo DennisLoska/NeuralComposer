@@ -2,7 +2,6 @@
 /* eslint-disable arrow-parens */
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import labrador from '../../../public/images/labrador.png';
 import StyleCard from './StyleCard';
 import ImagePlaceholder from './ImagePlaceholder';
 import ImageUploader from './ImageUploader';
@@ -44,7 +43,7 @@ const App = () => {
 
   return (
     <div className="app__wrapper ui container">
-      <h1 className="row__headline ui inverted header">Neural Composer</h1>
+      <h1 className="row__headline ui inverted header">Neural Composer 1</h1>
       <h2 className="row__headline ui inverted dividing header">
         Choose your style!
       </h2>
@@ -67,7 +66,7 @@ const App = () => {
         <p>
           <img
             alt="cute labrador"
-            src={labrador}
+            src="images/labrador.png"
             className="ui small rounded right floated image"
           />
           This is a web application, which is powered by Node.js and Python in

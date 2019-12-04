@@ -2,14 +2,15 @@
 /* eslint-disable implicit-arrow-linebreak */
 const express = require('express');
 const artStyles = require('./art_styles.json');
-const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
 const app = express();
 
 // Static files
+app.use(express.static('dist'));
 app.use(express.static('public'));
+app.use(express.static('semantic'));
 
 //bodyParser is needed to read the body of a request
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,7 +35,7 @@ app.post('/api/inputUpload', upload.array('files'), (req, res) => {
   if (!files) return res.status(400).json({ msg: 'No file uploaded!' });
   else {
     res.status(200).json({
-      imgUrl: `public/images/input/${files[0].filename}`
+      imgUrl: `images/input/${files[0].filename}`
     });
   }
 });
@@ -45,7 +46,7 @@ app.post('/api/styleTransfer', (req, res) => {
   else {
     const styledImage = styleTransfer(json);
     res.status(200).json({
-      imgUrl: `public/images/art/styled/${styledImage}`
+      imgUrl: `images/art/styled/${styledImage}`
     });
   }
 });

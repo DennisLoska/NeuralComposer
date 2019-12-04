@@ -58,7 +58,9 @@ module.exports = {
     port: 3000,
     open: true,
     proxy: {
-      '/api': 'http://localhost:8080'
+      '/api': 'http://localhost:8080',
+      '/dist': 'http://localhost:8080',
+      '/images': 'http://localhost:8080'
     }
   },
   plugins: [
