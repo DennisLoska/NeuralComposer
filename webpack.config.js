@@ -19,17 +19,31 @@ module.exports = {
           loader: 'babel-loader'
         }
       },
+
       {
         test: /\.css$/,
         loader: 'style-loader'
       },
       {
         test: /\.css$/,
-        loader: 'css-loader',
+        loader: 'css-loader'
+        /* enables CSS modules
         query: {
           modules: true,
           localIdentName: '[name]__[local]___[hash:base64:5]'
         }
+        */
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader'
+        ]
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
