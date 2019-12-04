@@ -6,12 +6,12 @@ const StyleCard = props => {
   const [isSelected, setSelected] = useState(false);
 
   useEffect(() => {
-    if (props.currentStyle !== artist) setSelected(false);
+    if (props.currentStyle !== img_url) setSelected(false);
   });
 
   const selectStyle = () => {
     setSelected(!isSelected);
-    if (!isSelected) props.setCurrentStyle(artist);
+    if (!isSelected) props.setCurrentStyle(img_url);
     else props.setCurrentStyle(null);
   };
 
