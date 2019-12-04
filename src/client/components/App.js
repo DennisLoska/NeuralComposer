@@ -1,12 +1,18 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable arrow-parens */
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import labrador from '../../../public/images/labrador.png';
 import StyleCard from './StyleCard';
-import ImageLoader from './ImagePlaceholder';
+import ImagePlaceholder from './ImagePlaceholder';
+import ImageUploader from './ImageUploader';
+import ImageReceiver from './ImageReceiver';
 
 const App = () => {
   const [styles, setStyles] = useState(null);
   const [currentStyle, setCurrent] = useState(null);
+  const [inputImage, setUploaded] = useState(null);
+  const [styledImage, setStyledImage] = useState(null);
 
   useEffect(() => {
     fetch('/api/getArtStyles')
@@ -19,13 +25,30 @@ const App = () => {
     console.log(style);
   };
 
+  const startStyleTransfer = setComputing => {
+    setComputing(true);
+    console.log(inputImage, currentStyle);
+    (async () => {
+      const response = await fetch('/api/styleTransfer', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ input: inputImage, style: currentStyle })
+      });
+      const data = await response.json();
+      setStyledImage(data.imgUrl);
+    })();
+  };
+
   return (
     <div className="app__wrapper ui container">
       <h1 className="row__headline ui inverted header">Neural Composer</h1>
       <h2 className="row__headline ui inverted dividing header">
         Choose your style!
       </h2>
-      <div className="ui six doubling cards">
+      <div className="ui three doubling cards">
         {styles ? (
           styles.map((style, i) => (
             <StyleCard
@@ -36,7 +59,7 @@ const App = () => {
             />
           ))
         ) : (
-          <ImageLoader amount={6} />
+          <ImagePlaceholder amount={6} />
         )}
       </div>
       <div className="block__text ui raised very padded text container segment">
@@ -77,33 +100,13 @@ const App = () => {
       </h2>
       <div className="ui stackable two column divided grid container">
         <div className="row">
-          <div className="column">
-            <h3 className="row__headline ui inverted header">Input image</h3>
-            <div className="ui placeholder segment">
-              <div className="ui icon header">
-                <i className="pdf file outline icon"></i>
-                Upload an .png, .jpg or ,jpeg file
-              </div>
-              <div className="ui primary button">Add Image</div>
-            </div>
-            <button className="button__input  ui primary button">
-              Start Neural Style Transfer
-            </button>
-          </div>
-          <div className="column">
-            <h3 className="row__headline ui inverted header">Output image</h3>
-            <div className="ui placeholder segment">
-              <div className="ui active dimmer">
-                <div className="ui large text loader">Calculating style</div>
-              </div>
-              <p></p>
-              <p></p>
-              <p></p>
-            </div>
-            <button className="button__output ui primary button">
-              Download
-            </button>
-          </div>
+          <ImageUploader setUploaded={setUploaded} />
+          <ImageReceiver
+            styledImage={styledImage}
+            inputImage={inputImage}
+            currentStyle={currentStyle}
+            startStyleTransfer={startStyleTransfer}
+          />
         </div>
       </div>
     </div>
