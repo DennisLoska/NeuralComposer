@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(
       null,
-      env !== 'dev' ? '/app/public/images/input' : 'public/images/input'
+      env !== 'dev' ? './app/public/images/input' : './public/images/input/'
     );
   },
   filename: (req, file, cb) => {
