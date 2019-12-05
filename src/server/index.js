@@ -1,3 +1,5 @@
+/* eslint-disable spaced-comment */
+/* eslint-disable arrow-parens */
 /* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
 const express = require('express');
@@ -26,12 +28,12 @@ const storage = multer.diskStorage({
     );
   },
   filename: (req, file, cb) => {
-    console.log('uploaded ' + file.originalname);
+    console.log(`uploaded ${file.originalname}`);
     cb(null, file.originalname);
   }
 });
 //handling content-type multipart/form-data
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 //upload endpoint - receives an array of files form the ImageUploader
 app.post('/api/inputUpload', upload.array('files'), (req, res) => {
@@ -44,16 +46,16 @@ app.post('/api/inputUpload', upload.array('files'), (req, res) => {
   }
 });
 
-const styleTransfer = json => {
+const styleTransfer = async json => {
   //TODO - feed data into model
   return 'styled_vangogh.jpg';
 };
 
-app.post('/api/styleTransfer', (req, res) => {
+app.post('/api/styleTransfer', async (req, res) => {
   const json = req.body;
   if (!json) res.status(400).json({ msg: 'No Style or input image!' });
   else {
-    const styledImage = styleTransfer(json);
+    const styledImage = await styleTransfer(json);
     res.status(200).json({
       imgUrl: `images/art/styled/${styledImage}`
     });
