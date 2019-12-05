@@ -1,5 +1,6 @@
 /* eslint-disable arrow-parens */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const ImageReceiver = props => {
   const { styledImage, inputImage, currentStyle } = props;
@@ -14,9 +15,9 @@ const ImageReceiver = props => {
               <div className="ui large text loader">Calculating style</div>
             )}
           </div>
-          <p></p>
-          <p></p>
-          <p></p>
+          <p />
+          <p />
+          <p />
         </div>
       ) : (
         <div className="ui placeholder segment">
@@ -48,6 +49,19 @@ const ImageReceiver = props => {
       </a>
     </div>
   );
+};
+
+ImageReceiver.propTypes = {
+  styledImage: PropTypes.string,
+  inputImage: PropTypes.string,
+  currentStyle: PropTypes.string,
+  startStyleTransfer: PropTypes.func.isRequired
+};
+
+ImageReceiver.defaultProps = {
+  styledImage: null,
+  inputImage: null,
+  currentStyle: null
 };
 
 export default ImageReceiver;

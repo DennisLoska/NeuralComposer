@@ -1,18 +1,21 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 // eslint-disable-next-line arrow-parens
 const StyleCard = props => {
-  const { artist, genre, img_url, styled_img_url } = props.style;
+  const { style, currentStyle, setCurrentStyle } = props;
+  const { artist, genre, img_url, styled_img_url } = style;
   const [isSelected, setSelected] = useState(false);
 
   useEffect(() => {
-    if (props.currentStyle !== img_url) setSelected(false);
+    if (currentStyle !== img_url) setSelected(false);
   });
 
   const selectStyle = () => {
     setSelected(!isSelected);
-    if (!isSelected) props.setCurrentStyle(img_url);
-    else props.setCurrentStyle(null);
+    if (!isSelected) setCurrentStyle(img_url);
+    else setCurrentStyle(null);
   };
 
   return (
@@ -44,6 +47,17 @@ const StyleCard = props => {
       </div>
     </div>
   );
+};
+
+StyleCard.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object.isRequired,
+  setCurrentStyle: PropTypes.func.isRequired,
+  currentStyle: PropTypes.string
+};
+
+StyleCard.defaultProps = {
+  currentStyle: null
 };
 
 export default StyleCard;

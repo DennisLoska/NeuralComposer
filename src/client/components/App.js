@@ -54,7 +54,7 @@ const App = () => {
               style={style}
               setCurrentStyle={setCurrentStyle}
               currentStyle={currentStyle}
-              key={`style-${i}`}
+              key={`style-${i + 1}`}
             />
           ))
         ) : (

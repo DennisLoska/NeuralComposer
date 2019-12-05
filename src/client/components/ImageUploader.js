@@ -1,5 +1,6 @@
 /* eslint-disable arrow-parens */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import Progress from './Progress';
 import Message from './Message';
@@ -19,6 +20,7 @@ const ImageUploader = props => {
    */
   const onChange = e => {
     const { files } = e.target;
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < files.length; i++) {
       setState(prevState => ({
         files: [...prevState.files, files[i]],
@@ -69,6 +71,7 @@ const ImageUploader = props => {
     await uploadFile(formData, progressEvent => {
       if (state.files.length > 0) {
         setPercent(
+          // eslint-disable-next-line radix
           parseInt(
             Math.round((progressEvent.loaded * 100) / progressEvent.total)
           )
@@ -89,9 +92,7 @@ const ImageUploader = props => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      for (let i = 0; i < state.files.length; i++) {
-        formData.append('files', state.files[i]);
-      }
+      state.files.map(file => formData.append('files', file));
       await uploadSpec(formData);
       setMessage('File(s) successfully uploaded!');
     } catch (error) {
@@ -158,6 +159,10 @@ const ImageUploader = props => {
       )}
     </div>
   );
+};
+
+ImageUploader.propTypes = {
+  setUploaded: PropTypes.func.isRequired
 };
 
 export default ImageUploader;

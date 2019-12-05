@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /*
  * Renders the progress bar in the configuration tab of the SpecMenu component.
@@ -13,10 +14,14 @@ const Progress = ({ percentage }) => {
         role="progressbar"
         style={{ width: `${percentage}%` }}
       >
-        <span className="ui progress">{percentage}%</span>
+        <span className="ui progress">{`${percentage}%`}</span>
       </div>
     </div>
   );
+};
+
+Progress.propTypes = {
+  percentage: PropTypes.number.isRequired
 };
 
 export default Progress;

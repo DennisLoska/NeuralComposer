@@ -4,6 +4,7 @@ import React from 'react';
 const ImagePlaceholder = props => {
   const placeholders = [];
 
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < props.amount; i++) {
     placeholders.push(
       <div className="ui inverted card" key={`placeholder-${i}`}>

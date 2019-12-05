@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 /*
  * Shows a response message depending on the status of the file upload process.
@@ -25,7 +26,7 @@ const Message = ({ msg, setMessage }) => {
           position: 'absolute',
           right: '10px'
         }}
-        onClick={e => {
+        onClick={() => {
           setMsg('');
           setMessage('');
         }}
@@ -39,6 +40,11 @@ const Message = ({ msg, setMessage }) => {
       </button>
     </div>
   );
+};
+
+Message.propTypes = {
+  msg: PropTypes.string.isRequired,
+  setMessage: PropTypes.func.isRequired
 };
 
 export default Message;
