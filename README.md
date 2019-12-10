@@ -1,8 +1,6 @@
 # Neural Composer
 
-## Inspiration
-
-## Check it out
+The main idea of this project is to generate art images from provided input images. Right now this is a work in progress and what you can see here is the implementation of the client-side of the app.
 
 ## Credits
 
