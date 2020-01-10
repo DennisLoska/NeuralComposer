@@ -1,0 +1,38 @@
+[
+  {
+    "artist": "Wassily Kandinsky",
+    "genre": "expressionism, abstract art",
+    "img_url": "images/art/kandinsky.jpg",
+    "styled_img_url": "images/art/styled/styled_kandinsky.jpg"
+  },
+  {
+    "artist": "Vincent van Gogh",
+    "genre": "post-impressionism",
+    "img_url": "images/art/vangogh.jpg",
+    "styled_img_url": "images/art/styled/styled_vangogh.jpg"
+  },
+  {
+    "artist": "Leonardo da Vinci",
+    "genre": "high Renaissance",
+    "img_url": "images/art/davinci.jpg",
+    "styled_img_url": "images/art/styled/styled_davinci.jpg"
+  },
+  {
+    "artist": "Marc Chagall",
+    "genre": "primitivism",
+    "img_url": "images/art/chagall.jpg",
+    "styled_img_url": "images/art/styled/styled_chagall.jpg"
+  },
+  {
+    "artist": "Pablo Picasso",
+    "genre": "Cubism",
+    "img_url": "images/art/picasso.jpg",
+    "styled_img_url": "images/art/styled/styled_picasso.jpg"
+  },
+  {
+    "artist": "Henri Rousseau",
+    "genre": "primitivism",
+    "img_url": "images/art/rousseau.jpg",
+    "styled_img_url": "images/art/styled/styled_rousseau.jpg"
+  }
+]

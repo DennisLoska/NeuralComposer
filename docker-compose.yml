@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    build: ./app
+    ports:
+      - 8888:8888
+  server:
+    build:
+      ./server
+    ports:
+      - 8501:8501
