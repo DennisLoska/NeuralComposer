@@ -13,9 +13,9 @@ const artStyles = require('./art_styles.json');
 const app = express();
 
 // Static files
-app.use(express.static('dist'));
-app.use(express.static('public'));
-app.use(express.static('semantic'));
+app.use(express.static(__dirname + '/../../dist'));
+app.use(express.static(__dirname + '/../../public'));
+app.use(express.static(__dirname + '/../../semantic'));
 
 //bodyParser is needed to read the body of a request
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 //SET STORAGE for /api/upload endpoint
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/images/input/');
+    cb(null, __dirname + '../../../public/images/input/');
   },
   filename: (req, file, cb) => {
     console.log(`uploaded ${file.originalname}`);
@@ -46,7 +46,7 @@ app.post('/api/inputUpload', upload.array('files'), (req, res) => {
 });
 
 const base64Encode = async file => {
-  const path = `public/${file}`;
+  const path = `${__dirname}/../../public/${file}`;
   let encoded;
   try {
     encoded = await fs.readFile(path, { encoding: 'base64' });
@@ -67,7 +67,7 @@ const createOptions = async images => {
   }
   const options = {
     method: 'POST',
-    uri: 'http://localhost:8080/post',
+    uri: 'http://localhost:4002/post',
     body: {input, style},
     json: true
   };
@@ -104,6 +104,6 @@ app.post('/api/styleTransfer', async (req, res) => {
 });
 app.get('/api/getArtStyles', (req, res) => res.send(artStyles));
 
-app.listen(process.env.PORT || 8888, () =>
-  console.log(`Listening on port ${process.env.PORT || 8888}!`)
+app.listen(process.env.PORT || 4001 , () =>
+  console.log(`Listening on port ${process.env.PORT || 4001 }!`)
 );
