@@ -1,17 +1,20 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable arrow-parens */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import '../../index.scss';
 import StyleCard from '../StyleCard/StyleCard';
 import ImagePlaceholder from '../ImagePlaceHolder/ImagePlaceholder';
 import ImageUploader from '../ImageUploader/ImageUploader';
 import ImageReceiver from '../ImageReceiver/ImageReceiver';
 
-const App = () => {
+const App = ({ evolutionStep }) => {
   const [styles, setStyles] = useState(null);
   const [currentStyle, setCurrent] = useState(null);
   const [inputImage, setUploaded] = useState(null);
   const [styledImage, setStyledImage] = useState(null);
+  const [imageEvolution, setEvolution] = useState([]);
+
 
   useEffect(() => {
     fetch('/api/getArtStyles')
@@ -38,6 +41,7 @@ const App = () => {
       });
       const data = await response.json();
       setStyledImage(data.imgUrl);
+      setEvolution(JSON.parse(data.imgList));
     })();
   };
 
@@ -58,8 +62,8 @@ const App = () => {
             />
           ))
         ) : (
-          <ImagePlaceholder amount={6} />
-        )}
+            <ImagePlaceholder amount={6} />
+          )}
       </div>
       <div className="block__text ui raised very padded text container segment">
         <h2 className="ui header">Where the beauty of art and science meet</h2>
@@ -107,9 +111,39 @@ const App = () => {
             startStyleTransfer={startStyleTransfer}
           />
         </div>
+        {imageEvolution.length > 0 && (
+          imageEvolution.map((image, i) => (
+            <div className="row" key={`evolution-${i * evolutionStep}`}>
+              <div className="sixteen wide column centered">
+                <h3 className="row__headline ui inverted header">Epoch {(i + 1) * evolutionStep}</h3>
+                <div className="ui placeholder segment">
+                  <img
+                    className="ui fluid image"
+                    src={`data:image/jpeg;base64, ${image}`}
+                    draggable={false}
+                    alt="evolution"
+                  />
+                </div>
+                <a
+                  className={`button__output ui primary button ${
+                    styledImage ? '' : 'disabled'
+                    }`}
+                  href={`data:image/jpeg;base64, ${image}`}
+                  download
+                >
+                  Download
+                </a>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
+};
+
+App.propTypes = {
+  evolutionStep: PropTypes.number.isRequired
 };
 
 export default App;
