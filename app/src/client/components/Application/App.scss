@@ -1,0 +1,23 @@
+body {
+  background-color: #1a1a1a;
+  text-align: left;
+  margin: auto;
+  font-size: 16px;
+}
+
+.app__wrapper {
+  margin-top: 50px;
+  .block__text {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  .button__input {
+    float: left;
+  }
+  .button__output {
+    float: right;
+  }
+  .image__row {
+    margin-bottom: 10vh;
+  }
+}

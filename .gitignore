@@ -1,4 +1,6 @@
+model/Models/*
+model/.ipynb_checkpoints/
+**/node_modules
 .vscode
-node_modules
-*.log
-yarn.lock
+**/.log
+**/yarn.lock
