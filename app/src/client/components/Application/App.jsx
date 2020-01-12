@@ -115,7 +115,7 @@ const App = ({ evolutionStep }) => {
           imageEvolution.map((image, i) => (
             <div className="row" key={`evolution-${i * evolutionStep}`}>
               <div className="sixteen wide column centered">
-                <h3 className="row__headline ui inverted header">Epoch {(i + 1) * evolutionStep}</h3>
+                <h3 className="row__headline ui inverted header">Epoch {(i * evolutionStep}</h3>
                 <div className="ui placeholder segment">
                   <img
                     className="ui fluid image"
