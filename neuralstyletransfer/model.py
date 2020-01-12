@@ -17,12 +17,11 @@ from tensorflow.python.keras.preprocessing import image as kp_image
 import tensorflow.keras
 import math
 import base64
-import cv2
 import io
 
 
 # %%
-iteration_number = 2
+iteration_number = 5
 #Following layers are not definite. We chose layers the original paper on NST selected.
 style_layers =   ['block1_conv1','block2_conv1','block3_conv1', 'block4_conv1','block5_conv1']
 content_layers = ['block5_conv2'] 
