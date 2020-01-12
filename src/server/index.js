@@ -5,9 +5,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const rp = require('request-promise');
+const fs = require('fs').promises;
 const artStyles = require('./art_styles.json');
 
-const env = process.env.NODE_ENV || 'dev';
 const app = express();
 
 // Static files
@@ -43,24 +44,88 @@ app.post('/api/inputUpload', upload.array('files'), (req, res) => {
   }
 });
 
-const styleTransfer = async json => {
-  //TODO - feed data into model
-  return 'styled_vangogh.jpg';
+/*
+ * Encodes the input and style image to base64
+ * and formats it as a base64 string.
+ *
+ */
+const base64Encode = async file => {
+  const path = `public/${file}`;
+  let encoded;
+  try {
+    encoded = await fs.readFile(path, { encoding: 'base64' });
+  } catch (error) {
+    console.log(error);
+  }
+  return encoded.toString('base64');
 };
 
+
+/*
+ * Creates the paylod for the POST request
+ * to the Flask server.
+ *
+ */
+const createOptions = async images => {
+  let input;
+  let style;
+  try {
+    input = await base64Encode(images.input);
+    style = await base64Encode(images.style);
+  } catch (error) {
+    console.log(error);
+  }
+  const options = {
+    method: 'POST',
+    uri: 'http://localhost:8080/styleTransfer',
+    body: { input, style },
+    json: true
+  };
+  return options;
+};
+
+/*
+ * Makes the POST request to the Flask server and
+ * receives the response.
+ *
+ */
+const styleTransfer = async images => {
+  let options;
+  try {
+    options = await createOptions(images);
+  } catch (error) {
+    console.log(error);
+  }
+  return rp(options)
+    .then(response => response)
+    .catch(error => {
+      console.log(error);
+    });
+};
+
+/*
+ * This function receives the urls for the input
+ * and style image from the React client and returns
+ * the generated style image and evolutions, once it
+ * is available.
+ *
+ */
 app.post('/api/styleTransfer', async (req, res) => {
   const json = req.body;
   if (!json) res.status(400).json({ msg: 'No Style or input image!' });
   else {
-    const styledImage = await styleTransfer(json);
+    //styledImage is a base64 image
+    const style = await styleTransfer(json);
     res.status(200).json({
-      imgUrl: `images/art/styled/${styledImage}`
+      imgUrl: style.image,
+      imgList: style.list
     });
   }
 });
 
+// Simply returns the content of the art_styles.json file.
 app.get('/api/getArtStyles', (req, res) => res.send(artStyles));
 
-app.listen(process.env.PORT || 8080, () =>
-  console.log(`Listening on port ${process.env.PORT || 8080}!`)
+app.listen(process.env.PORT || 8888, () =>
+  console.log(`Listening on port ${process.env.PORT || 8888}!`)
 );

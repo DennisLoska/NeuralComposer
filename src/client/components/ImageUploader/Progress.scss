@@ -1,0 +1,11 @@
+#upload-form {
+  .ui.green.progress {
+    margin: 14px 0 10px 0;
+    height: 36px;
+    background-color: #f8f8f9;
+    .progress-bar {
+      background-color: green;
+      height: inherit;
+    }
+  }
+}
