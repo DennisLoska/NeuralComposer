@@ -13,13 +13,12 @@ const ImageUploader = props => {
   const [uploadPercentage, setPercent] = useState(0);
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState(null);
-  const [placeholder, setPlaceholder] = useState('Upload an .jpg or .png file');
+  const [placeholder, setPlaceholder] = useState('Upload an .jpg or .png image');
 
   /*
    * Updates the state of the file and filename, when a file is selected from the disk.
    */
   const onChange = e => {
-    console.log("onchange");
     const { files } = e.target;
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < files.length; i++) {
@@ -98,7 +97,6 @@ const ImageUploader = props => {
       setMessage('File(s) successfully uploaded!');
     } catch (error) {
       console.log(error);
-
       if (error.response.status === 500) {
         setMessage('There was a problem with the server');
       }

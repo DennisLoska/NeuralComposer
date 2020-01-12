@@ -7,8 +7,6 @@
 from PIL import Image
 import PIL
 import tensorflow as tf
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import numpy as np
 import os 
 from tensorflow.keras.applications.vgg19 import VGG19
@@ -21,7 +19,7 @@ import io
 
 
 # %%
-iteration_number = 5
+iteration_number = 1
 #Following layers are not definite. We chose layers the original paper on NST selected.
 style_layers =   ['block1_conv1','block2_conv1','block3_conv1', 'block4_conv1','block5_conv1']
 content_layers = ['block5_conv2'] 
@@ -35,7 +33,8 @@ tf.compat.v1.enable_eager_execution()
 def image_to_base64(image):
     buff = io.BytesIO()
     image.save(buff, format="JPEG")
-    img_str = base64.b64encode(buff.getvalue())
+    img_bytes = base64.b64encode(buff.getvalue())
+    img_str = img_bytes.decode('utf-8')
     return img_str
 
 
@@ -46,6 +45,7 @@ def load_and_process_img(file):
     #image_dir = os.getcwd() + '/Images/' + file
     #img = Image.open(image_dir)
     img = Image.open(io.BytesIO(base64.b64decode(file)))
+    img = img.convert('RGB')
     long = max(img.size)
     scale = max_dim/long
     img = img.resize((round(img.size[0]*scale), round(img.size[1]*scale)), PIL.Image.LANCZOS)#lanczos filter to avoid aliasing
@@ -121,7 +121,7 @@ def create_style_loss(mixed_image, style_model, gram_style_img_features):
     losses = []
     mixed_image_feature_maps = style_model(mixed_image)    
     gram_matrices_mixed_image = [gram_matrix(mixed_image_feature) for mixed_image_feature in mixed_image_feature_maps]
-    print(tf.executing_eagerly())
+    # print(tf.executing_eagerly())
 
     #iterates per layer
     for style_image_gram_matrix, mixed_image_gram in zip(gram_style_img_features, gram_matrices_mixed_image):
@@ -160,7 +160,7 @@ def compute_combined_loss(mixed_image,
 
 
 # %%
-def style_transfer_main(content_base64, style_base64):
+def style_transfer_main(content_base64, style_base64, evolutionStep):
     #no string as arg, but base64 encoded 
     
     content_img = load_and_process_img(content_base64)
@@ -190,12 +190,14 @@ def style_transfer_main(content_base64, style_base64):
     min_vals = -vgg19_norm_means
     max_vals = 255 - vgg19_norm_means
 
+    imageEvolutions = []
+
     for i in range(iteration_number):
         print(i)
         
         with tf.GradientTape() as tape:
                 combined_loss = compute_combined_loss(mixed_image, content_model, style_model, content_image_feature_maps, gram_style_img_features)
-        print(combined_loss)
+        # print(combined_loss)
         gradients = tape.gradient(combined_loss, mixed_image)
         optimizer.apply_gradients([(gradients, mixed_image)])
                 
@@ -206,11 +208,13 @@ def style_transfer_main(content_base64, style_base64):
         if combined_loss < lowest_loss:
             lowest_loss = combined_loss
             best_img = mixed_image
+            if i % evolutionStep == 0:
+                current = convert_to_rgb(best_img,vgg19_norm_means)
+                best_img_base64 = image_to_base64(PIL.Image.fromarray(current))
+                imageEvolutions.append(best_img_base64)
 
-         
     best_img = convert_to_rgb(best_img,vgg19_norm_means)
-    
     best_img_base64 = image_to_base64(PIL.Image.fromarray(best_img))
 
-    return best_img_base64
+    return best_img_base64, imageEvolutions
 

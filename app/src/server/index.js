@@ -6,7 +6,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const rp = require('request-promise');
-const fss = require('fs');
 const fs = require('fs').promises;
 const artStyles = require('./art_styles.json');
 
@@ -45,6 +44,11 @@ app.post('/api/inputUpload', upload.array('files'), (req, res) => {
   }
 });
 
+/*
+ * Encodes the input and style image to base64
+ * and formats it as a base64 string.
+ *
+ */
 const base64Encode = async file => {
   const path = `${__dirname}/../../public/${file}`;
   let encoded;
@@ -56,6 +60,12 @@ const base64Encode = async file => {
   return encoded.toString('base64');
 };
 
+
+/*
+ * Creates the paylod for the POST request
+ * to the Flask server.
+ *
+ */
 const createOptions = async images => {
   let input;
   let style;
@@ -67,13 +77,18 @@ const createOptions = async images => {
   }
   const options = {
     method: 'POST',
-    uri: 'http://localhost:4002/post',
+    uri: 'http://localhost:4002/styleTransfer',
     body: {input, style},
     json: true
   };
   return options;
 };
 
+/*
+ * Makes the POST request to the Flask server and
+ * receives the response.
+ *
+ */
 const styleTransfer = async images => {
   let options;
   try {
@@ -82,26 +97,33 @@ const styleTransfer = async images => {
     console.log(error);
   }
   return rp(options)
-    .then(response => {
-      console.log(response);
-      return response;
-    })
+    .then(response => response)
     .catch(error => {
       console.log(error);
     });
 };
 
+/*
+ * This function receives the urls for the input
+ * and style image from the React client and returns
+ * the generated style image and evolutions, once it
+ * is available.
+ *
+ */
 app.post('/api/styleTransfer', async (req, res) => {
   const json = req.body;
   if (!json) res.status(400).json({ msg: 'No Style or input image!' });
   else {
     //styledImage is a base64 image
-    const styledImage = await styleTransfer(json);
+    const style = await styleTransfer(json);
     res.status(200).json({
-      imgUrl: styledImage
+      imgUrl: style.image,
+      imgList: style.list
     });
   }
 });
+
+// Simply returns the content of the art_styles.json file.
 app.get('/api/getArtStyles', (req, res) => res.send(artStyles));
 
 app.listen(process.env.PORT || 4001 , () =>
