@@ -4,3 +4,4 @@ model/.ipynb_checkpoints/
 .vscode
 **/.log
 **/yarn.lock
+app/dist
