@@ -12,7 +12,7 @@ const ImageReceiver = props => {
         <div className="ui placeholder segment">
           <div className="ui active dimmer">
             {isComputing && (
-              <div className="ui large text loader">Calculating style</div>
+              <div className="ui large text loader">Calculating style - currently not running because the style transfer algorithm requires a GPU to compute the style transfer.</div>
             )}
           </div>
           <p />
