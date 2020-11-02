@@ -126,6 +126,6 @@ app.post('/api/styleTransfer', async (req, res) => {
 // Simply returns the content of the art_styles.json file.
 app.get('/api/getArtStyles', (req, res) => res.send(artStyles));
 
-app.listen(process.env.PORT || 4001 , () =>
-  console.log(`Listening on port ${process.env.PORT || 4001 }!`)
+app.listen(process.env.PORT || 5000 , () =>
+  console.log(`Listening on port ${process.env.PORT || 5000 }!`)
 );

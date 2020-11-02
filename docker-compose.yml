@@ -1,12 +1,16 @@
-version: '3'
-
+version: "3"
 services:
-  app:
-    build: ./app
+  neuralcomposer:
+    container_name: neuralcomposer
+    image: "node:10-buster-slim"
+    user: "node"
+    working_dir: /home/node
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./app:/home/node
+    restart: unless-stopped
     ports:
-      - 8888:8888
-  server:
-    build:
-      ./server
-    ports:
-      - 8501:8501
+      - "86:5000/tcp"
+    command: "chown -R node:node /home/node/app"
+    command: "node src/server/index.js"
