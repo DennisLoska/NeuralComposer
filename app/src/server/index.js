@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 //SET STORAGE for /api/upload endpoint
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __dirname + '../../../public/images/input/');
+    cb(null, __dirname + '../../public/images/input/');
   },
   filename: (req, file, cb) => {
     console.log(`uploaded ${file.originalname}`);
