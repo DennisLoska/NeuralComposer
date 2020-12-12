@@ -8,9 +8,8 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ./app:/home/node
+            - ./app:/home/node
     restart: unless-stopped
     ports:
       - "86:5000/tcp"
-    command: "chown -R node:node /home/node/app"
     command: "node src/server/index.js"
