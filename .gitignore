@@ -6,3 +6,4 @@
 __pycache__
 app/dist
 server/server/vgg19.h5
+app/public/images/input/*
